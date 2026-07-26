@@ -1,0 +1,8 @@
+/out/
+/build/
+/.cache/
+*.gcda
+*.gcno
+*.gcov
+*.ppm
+compile_commands.json

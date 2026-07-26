@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install oneTBB and Ninja
+        run: sudo apt-get update && sudo apt-get install -y libtbb-dev ninja-build
+
+      - name: Configure
+        run: >
+          cmake -S . -B out/build/ci -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          -DRENDER_WARNINGS_AS_ERRORS=ON
+
+      - name: Build
+        run: cmake --build out/build/ci --parallel 2
+
+      - name: Test
+        run: ctest --test-dir out/build/ci --output-on-failure
+
+      - name: Verify sequential layout equivalence
+        run: |
+          out/build/ci/aos/render-aos examples/ci_config.txt examples/scene4.txt /tmp/aos.ppm
+          out/build/ci/soa/render-soa examples/ci_config.txt examples/scene4.txt /tmp/soa.ppm
+          cmp /tmp/aos.ppm /tmp/soa.ppm

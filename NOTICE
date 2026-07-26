@@ -1,0 +1,17 @@
+Data Layout & Parallel Ray Tracer
+
+This repository is a curated portfolio edition of software originally
+developed for the 2025 Computer Architecture renderer assignment at
+Universidad Carlos III de Madrid.
+
+The assignment was completed as a team project. Niko González performed the
+majority of the implementation and maintains this portfolio edition. Other
+team members are intentionally not named in the public-facing documentation.
+
+This edition combines and modifies three submitted snapshots:
+
+- first sequential delivery: 11ea54af63029b237a78e65606db9b9c437e8638
+- completed sequential AoS/SoA delivery: afb938a78d0cc7612c35bacf3da36c14cd68fa47
+- oneTBB parallel delivery: 6302217171cc12b790e73fb14a7b6b060668cf99
+
+The original university repositories remain unchanged.

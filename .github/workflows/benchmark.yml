@@ -1,0 +1,32 @@
+name: Benchmark
+
+on:
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install oneTBB and Ninja
+        run: sudo apt-get update && sudo apt-get install -y libtbb-dev ninja-build
+
+      - name: Build release binaries
+        run: |
+          cmake -S . -B out/build/benchmark -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+          cmake --build out/build/benchmark --parallel 2
+
+      - name: Run benchmark matrix
+        run: >
+          python3 scripts/benchmark.py
+          --build-dir out/build/benchmark
+          --config examples/benchmark_config.txt
+          --scene examples/scene4.txt
+          --repeats 5
+          --threads 1 2 4
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: renderer-benchmark
+          path: out/benchmarks/results.csv
