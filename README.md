@@ -104,6 +104,25 @@ Measurements are stored in `out/benchmarks/results.csv`. See
 manual `Benchmark` GitHub Actions workflow provides a repeatable hosted-runner
 baseline.
 
+### Hosted-runner baseline
+
+Five repeats on the GitHub Actions Ubuntu runner produced these median render-only times:
+
+| Variant | Threads | Median time | Speedup vs fastest sequential |
+|---|---:|---:|---:|
+| AoS sequential | 1 | 327 ms | 1.00x |
+| SoA sequential | 1 | 331 ms | 0.99x |
+| oneTBB parallel | 1 | 510 ms | 0.64x |
+| oneTBB parallel | 2 | 289 ms | 1.13x |
+| oneTBB parallel | 4 | 208 ms | **1.57x** |
+
+The 4-thread version was the fastest configuration measured. The single-thread
+parallel result also shows the runtime and task-management overhead, while the
+2- and 4-thread results demonstrate useful scaling. Hosted runners are shared
+infrastructure, so these figures are a reproducible baseline rather than a
+hardware-independent performance claim. The raw CSV is attached to
+[Benchmark run #1](https://github.com/Nikk888/parallel-raytracer-cpp/actions/runs/30286776259).
+
 ## Project provenance
 
 This began as a 2025 Computer Architecture team project at Universidad Carlos
